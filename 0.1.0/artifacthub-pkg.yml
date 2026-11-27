@@ -1,0 +1,15 @@
+version: 0.1.0
+name: aegis-rs
+displayName: Aegis-RS (AI Agent Security Shield)
+createdAt: "2026-11-27T14:45:00Z"
+description: High-performance AI Agent Security Guardrails & Prompt Injection Shield built in Rust.
+license: Apache-2.0
+homeURL: https://github.com
+keywords:
+  - ai-security
+  - rust
+  - ai-agents
+  - prompt-injection
+maintainers:
+  - name: sakariyadev
+    email: security@aegis-rs.dev

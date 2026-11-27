@@ -21,3 +21,8 @@ docker run --rm aegis-rs
 
 ## 📄 License
 Licensed under the **Apache License 2.0**. See `LICENSE` for details.
+
+---
+
+## ⚠️ Disclaimer
+*Aegis-RS is provided "as-is" under the [Apache License 2.0](LICENSE) without warranties or guarantees of any kind. Users are responsible for testing and validating security policies in their own environments before production deployment.*

@@ -1,0 +1,14 @@
+# Aegis-RS Custom Security Policies (v0.4.0)
+rate_limit_per_minute: 60
+block_threshold: 70
+
+custom_rules:
+  - id: "ORG-001"
+    name: "Block Confidential Project Codename"
+    pattern: "project-apollo"
+    risk_score: 90
+
+  - id: "ORG-002"
+    name: "Block Internal Database Dump"
+    pattern: "pg_dump"
+    risk_score: 95

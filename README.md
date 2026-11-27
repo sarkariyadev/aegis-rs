@@ -60,10 +60,15 @@ curl -X POST http://localhost:8080/v1/scan \
 ```
 
 ---
+## 🐍 Python SDK (`pip install`)
+Install the zero-dependency Python client directly via `pip`:
+```bash
+pip install "git+https://github.com"
+```
 
-## 🐍 Python SDK (`python/aegis_client.py`)
+Use it in your LangChain, CrewAI, or custom Python AI agents:
 ```python
-from python.aegis_client import AegisClient, AegisSecurityBlock
+from aegis_client import AegisClient, AegisSecurityBlock
 
 aegis = AegisClient(base_url="http://localhost:8080", agent_id="research-agent")
 
@@ -73,6 +78,8 @@ try:
 except AegisSecurityBlock as e:
     print("Blocked Attack:", e)
 ```
+
+
 
 ---
 

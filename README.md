@@ -16,9 +16,6 @@ docker build -t aegis-rs .
 docker run --rm aegis-rs
 ```
 
-## ⚠️ Disclaimer
-> **Beta Software:** `aegis-rs` (`v0.1.0`) is currently in active early-stage development (Beta). Please audit and test thoroughly before deploying in production environments.
-
 ## 📄 License
 Licensed under the **Apache License 2.0**. See `LICENSE` for details.
 

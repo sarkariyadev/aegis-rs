@@ -78,3 +78,20 @@ cargo test
 ## 📄 License
 Licensed under the [Apache License 2.0](LICENSE).
 
+
+---
+
+## 🐍 Python SDK Integration (`python/aegis_client.py`)
+Zero-dependency Python client for LangChain, CrewAI, and custom AI agents:
+
+```python
+from python.aegis_client import AegisClient, AegisSecurityBlock
+
+aegis = AegisClient(base_url="http://localhost:8080", agent_id="research-agent")
+
+try:
+    res = aegis.scan("Email founder@startup.io with key sk-proj-1234567890abcdefghijklmnop")
+    print("Clean Prompt:", res.sanitized_prompt)
+except AegisSecurityBlock as e:
+    print("Blocked Attack:", e)
+```

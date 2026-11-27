@@ -1,0 +1,20 @@
+version: 0.2.0
+name: aegis-rs
+displayName: Aegis-RS AI Agent Security Proxy
+createdAt: 2026-11-27T18:00:00Z
+description: High-performance, zero-telemetry AI Agent Security Proxy & Guardrail Engine in Rust (Axum + Tokio).
+license: Apache-2.0
+homeURL: https://github.com
+keywords:
+  - ai-security
+  - rust
+  - prompt-injection
+  - llm-guardrails
+  - pii-redaction
+links:
+  - name: GitHub Repository
+    url: https://github.com
+install: |
+  git clone https://github.com.git
+  cd aegis-rs
+  cargo run --release

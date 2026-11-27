@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-rs-client"
+version = "0.3.0"
+description = "Zero-dependency Python SDK for the Aegis-RS AI Agent Security Proxy"
+readme = "../README.md"
+requires-python = ">=3.8"
+license = {text = "Apache-2.0"}
+authors = [
+  { name = "Dev Sakariya" }
+]
+keywords = ["ai-security", "llm-guardrails", "prompt-injection", "pii-redaction", "rust"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Topic :: Security",
+]
+
+[project.urls]
+Homepage = "https://github.com"
+Repository = "https://github.com"

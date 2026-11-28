@@ -1,43 +1,39 @@
-# 🛡️ Aegis-RS (`v0.4.0`)
+# Aegis-RS (v0.4.0)
 
-[![Rust CI](https://github.com)](https://github.com)
-[![License: Apache-2.0](https://shields.io)](LICENSE)
+A lightweight, local-first security proxy for AI agents written in Rust (`Axum` + `Tokio`). It sits between your AI agent and external tools/LLMs to filter prompt injections, block dangerous commands, and redact sensitive API keys.
 
-**Aegis-RS** is a high-performance, zero-telemetry **AI Agent Security Proxy & Guardrail Engine** written in Rust (`Axum` + `Tokio`). It provides a 4-layer enterprise defense pipeline between autonomous AI agents and external tools/LLMs in sub-millisecond latency.
+*Note: This is an early-stage learning project under active development.*
 
----
-
-## 🏗️ 4-Layer Enterprise Defense Architecture
+## Architecture
 
 ```text
+
 [ Python / JS AI Agent ]
-           │
-           ▼  POST /v1/scan
-┌─────────────────────────────────────────────────────┐
-│                 AEGIS-RS PROXY v0.4.0               │
-│  1. RateLimiter   ──► Sliding-Window Flood Control  │
-│  2. PolicyEngine  ──► Custom YAML Rules (No-Code)   │
-│  3. ThreatScanner ──► Risk Score & RCE/SQLi Block   │
-│  4. DataRedactor  ──► OpenAI, AWS, GitHub & PII     │
-└─────────────────────────────────────────────────────┘
-           │
-           ▼  Clean Payload (200) / Blocked (403) / Throttled (429)
+          |
+          v  POST /v1/scan
++-------------------------------------------------------+
+
+|                  AEGIS-RS PROXY v0.4.0                |
+|  1. RateLimiter   -> Per-agent request rate control   |
+|  2. PolicyEngine  -> Custom YAML rules (policies.yaml)|
+|  3. ThreatScanner -> Regex & risk score filtering     |
+|  4. DataRedactor  -> Masks API keys, emails & IPs     |
++-------------------------------------------------------+
+          |
+          v  Clean Payload (200) / Blocked (403) / Rate Limited (429)
 [ OpenAI / Anthropic / Local LLM / Shell ]
 ```
 
----
+## Features (v0.4.0)
 
-## ✨ Key Capabilities (`v0.4.0`)
+* **YAML Policy Config (`policies.yaml` & `src/policy.rs`):** Add custom blocked keywords and adjust rate limits without recompiling Rust code.
+* **Rate Limiter (`src/limiter.rs`):** Basic sliding-window request limit per agent (`HTTP 429`).
+* **Threat Scanner (`src/scanner.rs`):** Scans prompts for common prompt injections, destructive shell commands, and SQL patterns (`HTTP 403`).
+* **PII & Secret Redactor (`src/redactor.rs`):** Masks OpenAI keys (`sk-...`), GitHub tokens (`ghp_...`), AWS keys (`AKIA...`), credit cards, and emails.
+* **Python Client (`python/aegis_client.py`):** Simple Python wrapper to connect your agent to the proxy.
 
-* **Policy-as-Code (`policies.yaml` & `src/policy.rs`):** Define custom blocked keywords, risk thresholds, and per-agent rate limits in YAML without recompiling Rust code.
-* **Sliding-Window Rate Limiter (`src/limiter.rs`):** Enforces per-agent request quotas to stop infinite AI agent loops and DDoS bursts (`HTTP 429`).
-* **Real-Time Threat Interception (`src/scanner.rs`):** Blocks Prompt Injections, System Prompt Extraction, Destructive Shell Commands, SQL Injections, and RCE (`HTTP 403`).
-* **Automated Secret & PII Vault (`src/redactor.rs`):** Redacts OpenAI keys (`sk-...`), GitHub tokens (`ghp_...`), AWS keys (`AKIA...`), Credit Cards, Emails, and IPv4 addresses.
-* **Zero-Dependency Python SDK (`pip install`):** Native Python client for LangChain, CrewAI, and custom agent frameworks.
+## Custom Policies (`policies.yaml`)
 
----
-
-## 📜 Custom Security Policies (`policies.yaml`)
 ```yaml
 rate_limit_per_minute: 60
 block_threshold: 70
@@ -49,9 +45,7 @@ custom_rules:
     risk_score: 90
 ```
 
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Option A: Run with Cargo
 ```bash
@@ -64,33 +58,32 @@ docker build -t aegis-rs:0.4.0 .
 docker run -p 8080:8080 aegis-rs:0.4.0
 ```
 
----
+## Python Client Usage
 
-## 🐍 Python SDK (`pip install`)
+Install from the `master` branch:
 ```bash
 pip install "git+https://github.com"
 ```
 
+Example usage:
 ```python
 from aegis_client import AegisClient, AegisSecurityBlock
 
-aegis = AegisClient(base_url="http://localhost:8080", agent_id="research-agent")
+aegis = AegisClient(base_url="http://localhost:8080")
 
 try:
-    res = aegis.scan("Email founder@startup.io with key sk-proj-1234567890abcdefghijklmnop")
+    res = aegis.scan("Email founder@startup.com")
     print("Clean Prompt:", res.sanitized_prompt)
 except AegisSecurityBlock as e:
     print("Blocked Attack:", e)
 ```
 
----
+## Testing
 
-## 🧪 Automated Testing
 ```bash
 cargo test
 ```
 
-## 📄 License & ⚠️ Disclaimer
-Licensed under the [Apache License 2.0](LICENSE).  
-*Aegis-RS is provided "as-is" without warranties or guarantees of any kind. Users are responsible for testing and validating security policies in their own environments before production deployment.*
+## License
 
+Apache-2.0
